@@ -1,52 +1,54 @@
 # frozen_string_literal: true
 
 module RaveRuby
-  class RaveServerError < StandardError
+  class RaveError < StandardError; end
+
+  class RaveServerError < RaveError
     attr_reader :response
     def initialize(response = nil)
       @response = response
     end
   end
 
-  class RaveBadKeyError < RaveServerError
+  class RaveBadKeyError < RaveError
   end
 
-  class IncompleteParameterError < RaveServerError
+  class IncompleteParameterError < RaveError
   end
 
-  class SuggestedAuthError < RaveServerError
+  class SuggestedAuthError < RaveError
   end
 
-  class RequiredAuthError < RaveServerError
+  class RequiredAuthError < RaveError
   end
 
-  class InitiateTransferError < RaveServerError
+  class InitiateTransferError < RaveError
   end
 
-  class CreatePaymentPlanError < RaveServerError
+  class CreatePaymentPlanError < RaveError
   end
 
-  class ListPaymentPlanError < RaveServerError
+  class ListPaymentPlanError < RaveError
   end
 
-  class FetchPaymentPlanError < RaveServerError
+  class FetchPaymentPlanError < RaveError
   end
 
-  class CancelPaymentPlanError < RaveServerError
+  class CancelPaymentPlanError < RaveError
   end
 
-  class EditPaymentPlanError < RaveServerError
+  class EditPaymentPlanError < RaveError
   end
 
-  class ListSubscriptionError < RaveServerError
+  class ListSubscriptionError < RaveError
   end
 
-  class FetchSubscriptionError < RaveServerError
+  class FetchSubscriptionError < RaveError
   end
 
-  class CancelSubscriptionError < RaveServerError
+  class CancelSubscriptionError < RaveError
   end
 
-  class ActivateSubscriptionError < RaveServerError
+  class ActivateSubscriptionError < RaveError
   end
 end
