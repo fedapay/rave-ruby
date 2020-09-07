@@ -46,6 +46,7 @@ module RaveRuby
       data.merge!({'SECKEY' => rave_object.secret_key.dup})
 
       required_parameters = %w[SECKEY amount currency country token txRef email]
+      p data
       check_passed_parameters(required_parameters, data)
 
       payload = data.to_json
