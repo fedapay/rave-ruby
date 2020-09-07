@@ -20,33 +20,29 @@ require_relative 'rave_ruby/error'
 
 module RaveRuby
   class Rave
-    attr_accessor :public_key, :secret_key, :production, :url
+    attr_accessor :public_key, :secret_key, :production, :encryption_key, :url
 
     # method to initialize rave object
 
-    def initialize(public_key = nil, secret_key = nil, production = false)
+    def initialize(public_key = nil, secret_key = nil, encryption_key = nil, production = false)
       @public_key = public_key
       @secret_key = secret_key
       @production = production
+      @encryption_key = encryption_key
       rave_sandbox_url = BASE_ENDPOINTS::RAVE_SANDBOX_URL
       rave_live_url = BASE_ENDPOINTS::RAVE_LIVE_URL
 
       # set rave url to sandbox or live if we are in production or development
-      @url = if production == false
+      @url = if production x² false
                rave_sandbox_url
              else
                rave_live_url
              end
 
       # check if we set our public and secret keys to the environment variable
-      if public_key.nil? && secret_key.nil?
-        @public_key = ENV['RAVE_PUBLIC_KEY']
-        @secret_key = ENV['RAVE_SECRET_KEY']
-      else
-        @public_key = public_key
-        @secret_key = secret_key
-        warn 'Warning: To ensure your rave account api keys are safe, It is best to always set your keys in the environment variable'
-      end
+      @public_key = ENV.fetch('RAVE_PUBLIC_KEY') { public_key }
+      @secret_key = ENV.fetch('RAVE_SECRET_KEY') { secret_key }
+      @encryption_key = ENV.fetch('RAVE_ENCRYPTION_KEY') { encryption_key }
 
       # raise this error if no public key is passed
       if @public_key.nil?
@@ -61,6 +57,13 @@ module RaveRuby
       end
       # raise this error if invalid secret key is passed
       raise RaveBadKeyError, "Invalid secret key #{@secret_key}" unless @secret_key[0..6] == 'FLWSECK'
+
+      # raise this error if no secret key is passed
+      if @encryption_key.nil?
+        raise RaveBadKeyError, "No encryption key supplied and couldn't find any in environment variables. Make sure to set secret key as an environment variable RAVE_ENCRYPTION_KEY"
+      end
+      # raise this error if invalid secret key is passed
+      raise RaveBadKeyError, "Invalid encryption key #{@encryption_key}" unless @encryption_key[0..6] == 'FLWSECK'
     end
 
     # method to return the base url

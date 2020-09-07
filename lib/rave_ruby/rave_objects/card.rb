@@ -8,7 +8,7 @@ module RaveRuby
     # method to initiate card charge
     def initiate_charge(data)
       base_url = rave_object.base_url
-      hashed_secret_key = get_hashed_key
+      hashed_secret_key = rave_object.encryption_key
       public_key = rave_object.public_key
 
       # only update the payload with the transaction reference if it isn't already added to the payload
@@ -37,7 +37,7 @@ module RaveRuby
     # method to initiate card charge
     def tokenized_charge(data)
       base_url = rave_object.base_url
-      hashed_secret_key = get_hashed_key
+      hashed_secret_key = rave_object.encryption_key
       public_key = rave_object.public_key
 
       # only update the payload with the transaction reference if it isn't already added to the payload

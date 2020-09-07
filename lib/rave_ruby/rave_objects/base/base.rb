@@ -7,7 +7,7 @@ require_relative '../../error'
 
 module RaveRuby
   class Base
-    attr_reader :rave_object, :get_hashed_key
+    attr_reader :rave_object
 
     # method to initialize this class
 
@@ -15,16 +15,6 @@ module RaveRuby
       raise ArgumentError, 'Rave Object is required!!!' if rave_object.nil?
 
       @rave_object = rave_object
-    end
-
-    # method to get the hashed secret key
-    def get_hashed_key
-      hash = Digest::MD5.hexdigest(rave_object.secret_key)
-      last_twelve = hash[hash.length - 12..hash.length - 1]
-      private_secret_key = rave_object.secret_key.dup
-      private_secret_key['FLWSECK-'] = ''
-      first_twelve = private_secret_key[0..11]
-      first_twelve + last_twelve
     end
 
     # method to make a get request

@@ -9,7 +9,7 @@ module RaveRuby
     def initiate_charge(data)
       base_url = rave_object.base_url
       secret_key = rave_object.secret_key.dup
-      hashed_secret_key = get_hashed_key
+      hashed_secret_key = rave_object.encryption_key
       public_key = rave_object.public_key
 
       required_parameters = %w[country amount currency email]
