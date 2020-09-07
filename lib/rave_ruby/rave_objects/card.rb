@@ -15,6 +15,7 @@ module RaveRuby
       data.merge!({'txRef' => Util.transaction_reference_generator}) unless data.key?('txRef')
 
       data.merge!({'PBFPubKey' => public_key})
+      p data
 
       required_parameters = %w[PBFPubKey cardno cvv expirymonth expiryyear amount txRef email]
       check_passed_parameters(required_parameters, data)
@@ -46,7 +47,6 @@ module RaveRuby
       data.merge!({'SECKEY' => rave_object.secret_key.dup})
 
       required_parameters = %w[SECKEY amount currency country token txRef email]
-      p data
       check_passed_parameters(required_parameters, data)
 
       payload = data.to_json
