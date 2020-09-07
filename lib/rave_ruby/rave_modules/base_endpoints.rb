@@ -3,8 +3,8 @@
 module RaveRuby
   module BASE_ENDPOINTS
     RAVE_LIVE_URL = 'https://api.ravepay.co/'
-    RAVE_SANDBOX_URL = 'https://ravesandboxapi.flutterwave.com/'
-    CHARGE_ENDPOINT = 'flwv3-pug/getpaidx/api/charge'
+    RAVE_SANDBOX_URL = 'https://api.flutterwave.com/v3'
+    CHARGE_ENDPOINT = '/charge'
     TOKENISED_CHARGE_ENDPOINT = 'flwv3-pug/getpaidx/api/tokenized/charge'
     PREAUTH_CHARGE_ENDPOINT = 'flwv3-pug/getpaidx/api/tokenized/preauth_charge'
     CAPTURE_ENDPOINT = 'flwv3-pug/getpaidx/api/capture'
