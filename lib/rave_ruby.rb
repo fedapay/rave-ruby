@@ -25,10 +25,7 @@ module RaveRuby
     # method to initialize rave object
 
     def initialize(public_key = nil, secret_key = nil, encryption_key = nil, production = false)
-      @public_key = public_key
-      @secret_key = secret_key
       @production = production
-      @encryption_key = encryption_key
       rave_sandbox_url = BASE_ENDPOINTS::RAVE_SANDBOX_URL
       rave_live_url = BASE_ENDPOINTS::RAVE_LIVE_URL
 
