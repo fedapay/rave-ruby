@@ -8,45 +8,45 @@ module RaveRuby
     end
   end
 
-  class RaveBadKeyError < StandardError
+  class RaveBadKeyError < RaveServerError
   end
 
-  class IncompleteParameterError < StandardError
+  class IncompleteParameterError < RaveServerError
   end
 
-  class SuggestedAuthError < StandardError
+  class SuggestedAuthError < RaveServerError
   end
 
-  class RequiredAuthError < StandardError
+  class RequiredAuthError < RaveServerError
   end
 
-  class InitiateTransferError < StandardError
+  class InitiateTransferError < RaveServerError
   end
 
-  class CreatePaymentPlanError < StandardError
+  class CreatePaymentPlanError < RaveServerError
   end
 
-  class ListPaymentPlanError < StandardError
+  class ListPaymentPlanError < RaveServerError
   end
 
-  class FetchPaymentPlanError < StandardError
+  class FetchPaymentPlanError < RaveServerError
   end
 
-  class CancelPaymentPlanError < StandardError
+  class CancelPaymentPlanError < RaveServerError
   end
 
-  class EditPaymentPlanError < StandardError
+  class EditPaymentPlanError < RaveServerError
   end
 
-  class ListSubscriptionError < StandardError
+  class ListSubscriptionError < RaveServerError
   end
 
-  class FetchSubscriptionError < StandardError
+  class FetchSubscriptionError < RaveServerError
   end
 
-  class CancelSubscriptionError < StandardError
+  class CancelSubscriptionError < RaveServerError
   end
 
-  class ActivateSubscriptionError < StandardError
+  class ActivateSubscriptionError < RaveServerError
   end
 end
