@@ -1,48 +1,52 @@
-class RaveServerError < StandardError
-	attr_reader :response
-	def initialize(response=nil)
-		@response = response
-	end
-end
+# frozen_string_literal: true
 
-class RaveBadKeyError < StandardError
-end
+module RaveRuby
+  class RaveServerError < StandardError
+    attr_reader :response
+    def initialize(response = nil)
+      @response = response
+    end
+  end
 
-class IncompleteParameterError < StandardError
-end
+  class RaveBadKeyError < StandardError
+  end
 
-class SuggestedAuthError < StandardError
-end
+  class IncompleteParameterError < StandardError
+  end
 
-class RequiredAuthError < StandardError
-end
+  class SuggestedAuthError < StandardError
+  end
 
-class InitiateTransferError < StandardError
-end
+  class RequiredAuthError < StandardError
+  end
 
-class CreatePaymentPlanError < StandardError
-end
+  class InitiateTransferError < StandardError
+  end
 
-class ListPaymentPlanError < StandardError
-end
+  class CreatePaymentPlanError < StandardError
+  end
 
-class FetchPaymentPlanError < StandardError
-end
+  class ListPaymentPlanError < StandardError
+  end
 
-class CancelPaymentPlanError < StandardError
-end
+  class FetchPaymentPlanError < StandardError
+  end
 
-class EditPaymentPlanError < StandardError
-end
+  class CancelPaymentPlanError < StandardError
+  end
 
-class ListSubscriptionError < StandardError
-end
+  class EditPaymentPlanError < StandardError
+  end
 
-class FetchSubscriptionError < StandardError
-end
+  class ListSubscriptionError < StandardError
+  end
 
-class CancelSubscriptionError < StandardError
-end
+  class FetchSubscriptionError < StandardError
+  end
 
-class ActivateSubscriptionError < StandardError
+  class CancelSubscriptionError < StandardError
+  end
+
+  class ActivateSubscriptionError < StandardError
+  end
 end

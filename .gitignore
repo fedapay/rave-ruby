@@ -9,8 +9,9 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
-
+/ruby.rb
 update_subaccounttest.rb
+/Gemfile.lock
 
 # Used by dotenv library to load environment variables.
 # .env

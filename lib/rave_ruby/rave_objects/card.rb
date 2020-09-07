@@ -1,91 +1,89 @@
-require_relative "base/charge_base.rb"
+# frozen_string_literal: true
+
+require_relative 'base/charge_base.rb'
 require 'json'
 
-class Card < ChargeBase
-
-    # method to initiate card charge 
+module RaveRuby
+  class Card < ChargeBase
+    # method to initiate card charge
     def initiate_charge(data)
-        base_url = rave_object.base_url
-        hashed_secret_key = get_hashed_key
-        public_key = rave_object.public_key
-        
-        # only update the payload with the transaction reference if it isn't already added to the payload
-        if !data.key?("txRef")
-            data.merge!({"txRef" => Util.transaction_reference_generator})
-        end
+      base_url = rave_object.base_url
+      hashed_secret_key = get_hashed_key
+      public_key = rave_object.public_key
 
-        data.merge!({"PBFPubKey" => public_key})
+      # only update the payload with the transaction reference if it isn't already added to the payload
+      data.merge!({'txRef' => Util.transaction_reference_generator}) unless data.key?('txRef')
 
-        required_parameters = ["PBFPubKey", "cardno", "cvv", "expirymonth", "expiryyear", "amount", "txRef", "email"]
-        check_passed_parameters(required_parameters, data)
+      data.merge!({'PBFPubKey' => public_key})
 
-        encrypt_data = Util.encrypt(hashed_secret_key, data)
+      required_parameters = %w[PBFPubKey cardno cvv expirymonth expiryyear amount txRef email]
+      check_passed_parameters(required_parameters, data)
 
-        payload = {
-            "PBFPubKey" => public_key,
-            "client" => encrypt_data,
-            "alg" => "3DES-24"
-        }
+      encrypt_data = Util.encrypt(hashed_secret_key, data)
 
-        payload = payload.to_json
+      payload = {
+        'PBFPubKey' => public_key,
+        'client' => encrypt_data,
+        'alg' => '3DES-24'
+      }
 
-        response = post_request("#{base_url}#{BASE_ENDPOINTS::CHARGE_ENDPOINT}", payload) 
+      payload = payload.to_json
 
-        return handle_charge_response(response)
+      response = post_request("#{base_url}#{BASE_ENDPOINTS::CHARGE_ENDPOINT}", payload)
+
+      handle_charge_response(response)
     end
 
-    # method to initiate card charge 
+    # method to initiate card charge
     def tokenized_charge(data)
-        base_url = rave_object.base_url
-        hashed_secret_key = get_hashed_key
-        public_key = rave_object.public_key
-        
-        # only update the payload with the transaction reference if it isn't already added to the payload
-        if !data.key?("txRef")
-            data.merge!({"txRef" => Util.transaction_reference_generator})
-        end
+      base_url = rave_object.base_url
+      hashed_secret_key = get_hashed_key
+      public_key = rave_object.public_key
 
-        data.merge!({"SECKEY" => rave_object.secret_key.dup})
+      # only update the payload with the transaction reference if it isn't already added to the payload
+      data.merge!({'txRef' => Util.transaction_reference_generator}) unless data.key?('txRef')
 
-        required_parameters = ["SECKEY", "amount", "currency", "country", "token", "txRef", "email"]
-        check_passed_parameters(required_parameters, data)
+      data.merge!({'SECKEY' => rave_object.secret_key.dup})
 
-        payload = data.to_json
+      required_parameters = %w[SECKEY amount currency country token txRef email]
+      check_passed_parameters(required_parameters, data)
 
-        response = post_request("#{base_url}#{BASE_ENDPOINTS::TOKENISED_CHARGE_ENDPOINT}", payload) 
+      payload = data.to_json
 
-        return handle_charge_response(response)
+      response = post_request("#{base_url}#{BASE_ENDPOINTS::TOKENISED_CHARGE_ENDPOINT}", payload)
+
+      handle_charge_response(response)
     end
 
     def validate_charge(flwRef, otp)
-        base_url = rave_object.base_url
-        public_key = rave_object.public_key
-        
-        
-        payload = {
-            "PBFPubKey" => public_key,
-            "transactionreference" => flwRef,
-            "transaction_reference" => flwRef,
-            "otp" => otp,
-        }
+      base_url = rave_object.base_url
+      public_key = rave_object.public_key
 
-        payload = payload.to_json
+      payload = {
+        'PBFPubKey' => public_key,
+        'transactionreference' => flwRef,
+        'transaction_reference' => flwRef,
+        'otp' => otp
+      }
 
-        response = post_request("#{base_url}#{BASE_ENDPOINTS::CARD_VALIDATE_ENDPOINT}", payload)
-        return handle_validate_response(response)
+      payload = payload.to_json
+
+      response = post_request("#{base_url}#{BASE_ENDPOINTS::CARD_VALIDATE_ENDPOINT}", payload)
+      handle_validate_response(response)
     end
 
     def verify_charge(txref)
-        base_url = rave_object.base_url
+      base_url = rave_object.base_url
 
-        payload = {
-            "txref" => txref,
-            "SECKEY" => rave_object.secret_key.dup,
-        }
+      payload = {
+        'txref' => txref,
+        'SECKEY' => rave_object.secret_key.dup
+      }
 
-        payload = payload.to_json
+      payload = payload.to_json
 
-        response = post_request("#{base_url}#{BASE_ENDPOINTS::VERIFY_ENDPOINT}", payload)
-        return handle_verify_response(response)
+      response = post_request("#{base_url}#{BASE_ENDPOINTS::VERIFY_ENDPOINT}", payload)
+      handle_verify_response(response)
     end
+  end
 end

@@ -1,6 +1,8 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-git_source(:github) {|repo_name| "https://github.com/MaestroJolly" }
+source 'https://rubygems.org'
+
+git_source(:github) { |_repo_name| 'https://github.com/MaestroJolly' }
 
 # Specify your gem's dependencies in rave_ruby.gemspec
 gemspec
