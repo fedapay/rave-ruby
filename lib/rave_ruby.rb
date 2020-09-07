@@ -33,10 +33,10 @@ module RaveRuby
       rave_live_url = BASE_ENDPOINTS::RAVE_LIVE_URL
 
       # set rave url to sandbox or live if we are in production or development
-      @url = if production x² false
-               rave_sandbox_url
-             else
+      @url = if production
                rave_live_url
+             else
+               rave_sandbox_url
              end
 
       # check if we set our public and secret keys to the environment variable
