@@ -44,7 +44,7 @@ module RaveRuby
     end
 
     # method to capture transaction
-    def capture(flwRef, amount=nil)
+    def capture(flwRef, amount = nil)
       base_url = rave_object.base_url
 
       payload = {

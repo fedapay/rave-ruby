@@ -6,7 +6,7 @@ module RaveRuby
   class ChargeBase < Base
     # method to the passed suggested auth to the corresponding value in the available hash
     def get_auth_type(suggested_auth)
-      auth_map = {'PIN' => :pin, 'AVS_VBVSECURECODE' => :address, 'NOAUTH_INTERNATIONAL' => :address, 'AVS_NOAUTH' => :address}
+      auth_map = { 'PIN' => :pin, 'AVS_VBVSECURECODE' => :address, 'NOAUTH_INTERNATIONAL' => :address, 'AVS_NOAUTH' => :address}
 
       # Raise Error if the right authorization type is not passed
       if auth_map.key? auth_map[suggested_auth]
