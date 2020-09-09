@@ -15,7 +15,6 @@ module RaveRuby
       data.merge!({'txRef' => Util.transaction_reference_generator}) unless data.key?('txRef')
 
       data.merge!({'PBFPubKey' => public_key})
-      p data
 
       required_parameters = %w[PBFPubKey cardno cvv expirymonth expiryyear amount txRef email]
       check_passed_parameters(required_parameters, data)
