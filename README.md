@@ -33,16 +33,16 @@ Or install it yourself as:
 To use [Rave](https://ravesandbox.flutterwave.com), you need to instantiate the `RaveRuby` class with your [API](https://ravesandbox.flutterwave.com/dashboard/settings/apis) keys which are your public and secret keys. We recommend that you store your API keys in your environment variable named `RAVE_PUBLIC_KEY` and `RAVE_SECRET_KEY`. Instantiating your rave object after adding your API keys in your environment is as illustrated below:
 
 ```ruby
-rave = RaveRuby.new
+rave = RaveRuby::Rave.new
 ```
 This throws a `RaveBadKeyError` if no key is found in the environment variable or invalid public or secret key is found.
 
 #### Instantiate rave object in sandbox without environment variable:
 
-You can instantiate your rave object by setting your public and secret keys by passing them as an argument of the `RaveRuby` class just as displayed below: 
+You can instantiate your rave object by setting your public and secret keys by passing them as an argument of the `RaveRuby` class just as displayed below:
 
 ```ruby
-rave = RaveRuby.new("YOUR_RAVE_SANDBOX_PUBLIC_KEY", "YOUR_RAVE_SANDBOX_SECRET_KEY")
+rave = RaveRuby::Ravenew("YOUR_RAVE_SANDBOX_PUBLIC_KEY", "YOUR_RAVE_SANDBOX_SECRET_KEY")
 ```
 
 #### NOTE: It is best practice to always set your API keys to your environment variable for security purpose. Please be warned not use this package without setting your API keys in your environment variables in production.
@@ -52,26 +52,26 @@ rave = RaveRuby.new("YOUR_RAVE_SANDBOX_PUBLIC_KEY", "YOUR_RAVE_SANDBOX_SECRET_KE
 Simply use it as displayed below:
 
 ```ruby
-rave = RaveRuby.new("YOUR_RAVE_LIVE_PUBLIC_KEY", "YOUR_RAVE_LIVE_SECRET_KEY", true)
+rave = RaveRuby::Ravenew("YOUR_RAVE_LIVE_PUBLIC_KEY", "YOUR_RAVE_LIVE_SECRET_KEY", true)
 ```
 
 ## Rave Objects
 
-- [Account.new(rave)](#accountnewrave)
-- [Card.new(rave)](#cardnewrave)
-- [Preauth.new(rave)](#preauthnewrave)
-- [MobileMoney.new(rave)](#mobilemoneynewrave)
-- [Mpesa.new(rave)](#mpesanewrave)
-- [SubAccount.new(rave)](#subaccountnewrave)
-- [PaymentPlan.new(rave)](#paymentplannewrave)
-- [Subscription.new(rave)](#subscriptionnewrave)
-- [Transfer.new(rave)](#transfernewrave)
-- [UgandaMobileMoney.new(rave)](#ugandamobilemoneynewrave)
-- [ZambiaMobileMoney.new(rave)](#zambiamobilemoneynewrave)
-- [Ussd.new(rave)](#ussdnewrave)
-- [ListBanks.new(rave)](#listbanksnewrave)
+- [RaveRuby::Account.new(rave)](#accountnewrave)
+- [RaveRuby::Card.new(rave)](#cardnewrave)
+- [RaveRuby::Preauth.new(rave)](#preauthnewrave)
+- [RaveRuby::MobileMoney.new(rave)](#mobilemoneynewrave)
+- [RaveRuby::Mpesa.new(rave)](#mpesanewrave)
+- [RaveRuby::SubAccount.new(rave)](#subaccountnewrave)
+- [RaveRuby::PaymentPlan.new(rave)](#paymentplannewrave)
+- [RaveRuby::Subscription.new(rave)](#subscriptionnewrave)
+- [RaveRuby::Transfer.new(rave)](#transfernewrave)
+- [RaveRuby::UgandaMobileMoney.new(rave)](#ugandamobilemoneynewrave)
+- [RaveRuby::ZambiaMobileMoney.new(rave)](#zambiamobilemoneynewrave)
+- [RaveRuby::Ussd.new(rave)](#ussdnewrave)
+- [RaveRuby::ListBanks.new(rave)](#listbanksnewrave)
 
-## `Account.new(rave)`
+## `RaveRuby::Account.new(rave)`
 
 To perform account transactions, instantiate the account object and pass rave object as its argument.
 
@@ -205,7 +205,7 @@ If a transaction couldn't be verified successfully, `error` and `transaction_com
 require 'rave_ruby'
 
 # This is a rave object which is expecting public and secret keys
-rave = RaveRuby.new("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
+rave = RaveRuby::Ravenew("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
 
 # This is used to perform card charge
 payload = {
@@ -214,7 +214,7 @@ payload = {
     "currency" => "NGN",
     "payment_type" =>  "account",
     "country" => "NG",
-    "amount" => "100", 
+    "amount" => "100",
     "email" => "mijux@xcodes.net",
     "phonenumber" => "08134836828",
     "firstname" => "Maestro",
@@ -224,7 +224,7 @@ payload = {
     "device_fingerprint" => "69e6b7f0b72037aa8428b70fbe03986c"
 }
 
-charge_account = Account.new(rave)
+charge_account = RaveRuby::Account.new(rave)
 
 response = charge_account.initiate_charge(payload)
 print response
@@ -240,7 +240,7 @@ response = charge_account.verify_charge(response["txRef"])
 print response
 ```
 
-## `Card.new(rave)`
+## `RaveRuby::Card.new(rave)`
 
 To perform card transactions, instantiate the card object and pass rave object as its argument.
 
@@ -312,9 +312,9 @@ A `RaveServerError` is raised if there's an error with the card charge.
 
 You need to update the payload with `pin` or `address` parameters depending on the `suggested_auth` returned from the initial charge call i.e `suggested_auth = response["suggested_auth"]` and passing it as a parameter of the `.get_auth_type(suggested_auth)` method.
 
-If the `suggested_auth` returned is `pin`, update the payload with this method `charge_card.update_payload(suggested_auth, payload, pin: "CUSTOMER CARD PIN")`. 
+If the `suggested_auth` returned is `pin`, update the payload with this method `charge_card.update_payload(suggested_auth, payload, pin: "CUSTOMER CARD PIN")`.
 
-If the `suggested_auth` returned is `address`, update the payload with this method `charge_card.update_payload(suggested_auth, payload, address:{"A Ruby hash OF CUSTOMER'S BILLING ADDRESS"})`. 
+If the `suggested_auth` returned is `address`, update the payload with this method `charge_card.update_payload(suggested_auth, payload, address:{"A Ruby hash OF CUSTOMER'S BILLING ADDRESS"})`.
 
 This is what the Ruby hash billing address consists:
 
@@ -480,7 +480,7 @@ If a transaction couldn't be verified successfully, `error` and `transaction_com
 require 'rave_ruby'
 
 # This is a rave object which is expecting public and secret keys
-rave = RaveRuby.new("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
+rave = RaveRuby::Ravenew("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
 
 # This is used to perform card charge
 payload = {
@@ -501,7 +501,7 @@ payload = {
     "device_fingerprint" => "69e6b7f0b72037aa8428b70fbe03986c"
 }
 
-charge_card = Card.new(rave)
+charge_card = RaveRuby::Card.new(rave)
 
 response = charge_card.initiate_charge(payload)
 
@@ -534,7 +534,7 @@ response = charge_card.verify_charge(response["txRef"])
 print response
 ```
 
-## `Preauth.new(rave)`
+## `RaveRuby::Preauth.new(rave)`
 
 This is used to process a preauthorized card transaction.
 
@@ -654,7 +654,7 @@ REFERENCE", "paymenttype"=>"card", "paymentid"=>"861", "fraudstatus"=>"ok", "cha
 require 'rave_ruby'
 
 # This is a rave object which is expecting public and secret keys
-rave = RaveRuby.new("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
+rave = RaveRuby::Ravenew("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
 
 # This is the payload for preauth charge
 payload = {
@@ -669,13 +669,13 @@ payload = {
 }
 
 # Instantiate the preauth object
-preauth = Preauth.new(rave)
+preauth = RaveRuby::Preauth.new(rave)
 
 # Perform a charge with the card token from the saved from the card charge
 response = preauth.initiate_charge(payload)
 print response
 
-# Perform capture 
+# Perform capture
 response = preauth.capture(response["flwRef"], "30")
 print response
 
@@ -692,7 +692,7 @@ response = preauth.verify_preauth(response["txRef"])
 print response
 ```
 
-## `MobileMoney.new(rave)`
+## `RaveRuby::MobileMoney.new(rave)`
 
 To perform ghana mobile money transactions, instantiate the mobile money object and pass rave object as its argument.
 
@@ -761,7 +761,7 @@ If a transaction couldn't be verified successfully, `error` and `transaction_com
 require 'rave_ruby'
 
 # This is a rave object which is expecting public and secret keys
-rave = RaveRuby.new("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
+rave = RaveRuby::Ravenew("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
 
 # This is used to perform mobile money charge
 payload = {
@@ -774,7 +774,7 @@ payload = {
 }
 
 # To initiate mobile money transaction
-charge_mobile_money = MobileMoney.new(rave)
+charge_mobile_money = RaveRuby::MobileMoney.new(rave)
 
 response = charge_mobile_money.initiate_charge(payload)
 
@@ -786,7 +786,7 @@ response = charge_mobile_money.verify_charge(response["txRef"])
 print response
 ```
 
-## `Mpesa.new(rave)`
+## `RaveRuby::Mpesa.new(rave)`
 
 To perform mpesa transactions, instantiate the mpesa object and pass rave object as its argument.
 
@@ -854,7 +854,7 @@ If a transaction couldn't be verified successfully, `error` and `transaction_com
 require 'rave_ruby'
 
 # This is a rave object which is expecting public and secret keys
-rave = RaveRuby.new("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
+rave = RaveRuby::Ravenew("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
 
 # This is used to perform mpesa charge
 payload = {
@@ -866,7 +866,7 @@ payload = {
 }
 
 # To initiate mpesa transaction
-charge_mpesa = Mpesa.new(rave)
+charge_mpesa = RaveRuby::Mpesa.new(rave)
 
 response = charge_mpesa.initiate_charge(payload)
 
@@ -878,7 +878,7 @@ response = charge_mpesa.verify_charge(response["txRef"])
 print response
 ```
 
-## `SubAccount.new(rave)`
+## `RaveRuby::SubAccount.new(rave)`
 
 This is used to process and manage subaccount flow. Instantiate the subaccount object and pass rave object as its argument.
 
@@ -911,7 +911,7 @@ This function is called to initiate subaccount transaction. The payload should b
 
 - `split_value`,
 
-#### NOTE: 
+#### NOTE:
 
 - split_type can be set as percentage or flat when set as percentage it means you want to take a percentage fee on all transactions, and vice versa for flat this means you want to take a flat fee on every transaction.
 
@@ -1020,7 +1020,7 @@ value"=>"ggs-920900"}], "account_id"=>65394, "split_ratio"=>1, "split_type"=>"fl
 require 'rave_ruby'
 
 # This is a rave object which is expecting public and secret keys
-rave = RaveRuby.new("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
+rave = RaveRuby::Ravenew("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
 
 # This is the payload for sub account creation
 payload = {
@@ -1037,7 +1037,7 @@ payload = {
 }
 
 # Instantiate the subaccount object
-subaccount = SubAccount.new(rave)
+subaccount = RaveRuby::SubAccount.new(rave)
 
 # This is used to create a subaccount
 response = subaccount.create_subaccount(payload)
@@ -1056,7 +1056,7 @@ response = subaccount.delete_subaccount("RS_A59429B9C94C5A862F731711290B9ADD")
 print response
 ```
 
-## `PaymentPlan.new(rave)`
+## `RaveRuby::PaymentPlan.new(rave)`
 
 This is used to process and manage payment plan flow. Instantiate the paymentplan object and pass rave object as its argument.
 
@@ -1080,7 +1080,7 @@ This function is called to initiate payment plan transaction. The payload should
 
 - `duration`,
 
-#### NOTE: 
+#### NOTE:
 
 - amount: this is the amount for the plan
 
@@ -1212,7 +1212,7 @@ It returns this response in Ruby hash. A sample response:
 require 'rave_ruby'
 
 # This is a rave object which is expecting public and secret keys
-rave = RaveRuby.new("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
+rave = RaveRuby::Ravenew("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
 
 # Payment plan payload
 payload = {
@@ -1223,7 +1223,7 @@ payload = {
 }
 
 # Create an instance of the payment plan object
-payment_plan = PaymentPlan.new(rave)
+payment_plan = RaveRuby::PaymentPlan.new(rave)
 
 # Method to create payment plan
 # response = payment_plan.create_payment_plan(payload)
@@ -1246,7 +1246,7 @@ response = payment_plan.cancel_payment_plan("1298")
 print response
 
 ```
-## `Subscription.new(rave)`
+## `RaveRuby::Subscription.new(rave)`
 
 This is used to process and manage subscription flow. Instantiate the subscription object and pass rave object as its argument.
 
@@ -1369,9 +1369,9 @@ It returns this response in Ruby hash. A sample response:
 require 'rave_ruby'
 
 # This is a rave object which is expecting public and secret keys
-rave = RaveRuby.new("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
+rave = RaveRuby::Ravenew("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
 
-subscription = Subscription.new(rave)
+subscription = RaveRuby::Subscription.new(rave)
 response = subscription.list_all_subscription
 print response
 response = subscription.fetch_subscription("1")
@@ -1382,7 +1382,7 @@ response = subscription.cancel_subscription(1533)
 print response
 ```
 
-## `Transfer.new(rave)`
+## `RaveRuby::Transfer.new(rave)`
 
 This is used to initiate transfer flow. Instantiate the transfer object and pass rave object as its argument.
 
@@ -1409,7 +1409,7 @@ This function is called to initiate a single transfer from one account to anothe
 
 - `currency`,
 
-#### NOTE: 
+#### NOTE:
 
 For international transfers, you must pass a meta parameter as part of your payload as shown in the sample below:
 
@@ -1553,7 +1553,7 @@ It returns this response in Ruby hash. A sample response:
 require 'rave_ruby'
 
 # This is a rave object which is expecting public and secret keys
-rave = RaveRuby.new("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
+rave = RaveRuby::Ravenew("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
 
 # This is used to initiate single transfer
 payload = {
@@ -1564,7 +1564,7 @@ payload = {
     "currency" => "NGN",
 }
 
-transfer = Transfer.new(rave)
+transfer = RaveRuby::Transfer.new(rave)
 
 response = transfer.initiate_transfer(payload)
 print response
@@ -1594,7 +1594,7 @@ print response
 # }
 
 
-# transfer = Transfer.new(rave)
+# transfer = RaveRuby::Transfer.new(rave)
 
 # response = transfer.bulk_transfer(payload)
 # print response
@@ -1616,7 +1616,7 @@ response = transfer.fetch_all_transfers
 print response
 ```
 
-## `UgandaMobileMoney.new(rave)`
+## `RaveRuby::UgandaMobileMoney.new(rave)`
 
 To perform uganda mobile money transactions, instantiate the uganda mobile money object and pass rave object as its argument.
 
@@ -1686,7 +1686,7 @@ If the `chargecode` returned is `02`, it means the transaction is still pending 
 require 'rave_ruby'
 
 # This is a rave object which is expecting public and secret keys
-rave = RaveRuby.new("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
+rave = RaveRuby::Ravenew("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
 
 # This is used to perform mobile money charge
 payload = {
@@ -1701,7 +1701,7 @@ payload = {
 }
 
 # To initiate uganda mobile money transaction
-charge_uganda_mobile_money = UgandaMobileMoney.new(rave)
+charge_uganda_mobile_money = RaveRuby::UgandaMobileMoney.new(rave)
 
 response = charge_uganda_mobile_money.initiate_charge(payload)
 
@@ -1713,7 +1713,7 @@ response = charge_uganda_mobile_money.verify_charge(response["txRef"])
 print response
 ```
 
-## `ZambiaMobileMoney.new(rave)`
+## `RaveRuby::ZambiaMobileMoney.new(rave)`
 
 To perform zambia mobile money transactions, instantiate the zambia mobile money object and pass rave object as its argument.
 
@@ -1782,7 +1782,7 @@ If the `chargecode` returned is `02`, it means the transaction is still pending 
 require 'rave_ruby'
 
 # This is a rave object which is expecting public and secret keys
-rave = RaveRuby.new("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
+rave = RaveRuby::Ravenew("FLWPUBK-xxxxxxxxxxxxxxxxxxxxx-X", "FLWSECK-xxxxxxxxxxxxxxxxxxxx-X")
 
 # This is used to perform zambia mobile money charge
 payload = {
@@ -1797,7 +1797,7 @@ payload = {
 }
 
 # To initiate zambia mobile money transaction
-charge_zambia_mobile_money = ZambiaMobileMoney.new(rave)
+charge_zambia_mobile_money = RaveRuby::ZambiaMobileMoney.new(rave)
 
 response = charge_zambia_mobile_money.initiate_charge(payload)
 
@@ -1809,11 +1809,11 @@ response = charge_zambia_mobile_money.verify_charge(response["txRef"])
 print response
 ```
 
-## `Ussd.new(rave)`
+## `RaveRuby::Ussd.new(rave)`
 
 NOTE: This option is currently unavailable.
 
-## `ListBanks.new(rave)`
+## `RaveRuby::ListBanks.new(rave)`
 
 This function is called to fetch and return a list of banks currently supported by rave.
 
