@@ -59,8 +59,6 @@ module RaveRuby
       if @encryption_key.nil?
         raise RaveBadKeyError, "No encryption key supplied and couldn't find any in environment variables. Make sure to set secret key as an environment variable RAVE_ENCRYPTION_KEY"
       end
-      # raise this error if invalid secret key is passed
-      raise RaveBadKeyError, "Invalid encryption key #{@encryption_key}" unless @encryption_key[0..6] == 'FLWSECK'
     end
 
     # method to return the base url
